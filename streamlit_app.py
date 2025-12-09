@@ -256,29 +256,9 @@ def main() -> None:
     with tab_glossary:
         glossary_path = Path(__file__).parent / "glossary.md"
         if glossary_path.exists():
-            text = glossary_path.read_text(encoding="utf-8")
-            lines = text.splitlines()
-            pic1 = Path(__file__).parent / "Picture1.jpg"
-            pic2 = Path(__file__).parent / "Picture2.jpg"
-
-            buffer: list[str] = []
-
-            def flush_buffer() -> None:
-                if buffer:
-                    st.markdown("\n".join(buffer), unsafe_allow_html=True)
-                    buffer.clear()
-
-            for line in lines:
-                if "Picture1.jpg" in line and pic1.exists():
-                    flush_buffer()
-                    st.image(pic1, use_container_width=True)
-                elif "Picture2.jpg" in line and pic2.exists():
-                    flush_buffer()
-                    st.image(pic2, use_container_width=True)
-                else:
-                    buffer.append(line)
-
-            flush_buffer()
+            st.markdown(
+                glossary_path.read_text(encoding="utf-8"), unsafe_allow_html=True
+            )
         else:
             st.info("glossary.md not found.")
 
